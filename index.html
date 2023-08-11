@@ -1,0 +1,348 @@
+<html>
+  <head>
+	  <meta charset="UTF-8">
+	  <title>Pretraining And Fine-tuning Techniques For Electrolaryngeal Speech Enhancement Based On Sequence-to-sequence Voice Conversion</title>
+  </head>
+  <body>
+	  <article>
+      <header>
+        <h1>Pretraining And Fine-tuning Techniques For Electrolaryngeal Speech Enhancement Based On Sequence-to-sequence Voice Conversion</h1>
+      </header>
+  	  </article>
+	
+	<br>
+	<div><b>Authors:</b> Ding Ma, Lester Phillip Violeta, Kazuhiro Kobayashi, Tomoki Toda</div>
+	
+	<br>
+	<div style="width: 80%">
+		<b>Abstract:</b> Sequence-to-sequence (seq2seq) voice conversion (VC) models are highly adept at converting speech with input and output sequences of differing lengths, thereby showing great potential for electrolaryngeal (EL) speech to normal speech converison (EL2SP). However, EL2SP with seq2seq VC requires a large amount of parallel source EL and target normal data for training, otherwise the performance is significantly degraded. While one possible approach to addressing this issue is transfer learning, the substantial differences in acoustic features between EL and normal speech domains make it difficult to directly transfer knowledge from larger-scale normal corpora to the task of EL2SP. To tackle the issues, we present novel methods with muti-stage pretraining and fine-tuning techniques to enhance the pretrained seq2seq VC, as opposed to a common "pretraining-fine-tuning" paradigm. First, we initiate an encoder adaptation training stage with a large amount of imperfect synthetic data and original EL speech to reconcile the general domain knowledge with the specific knowledge required for EL2SP. Then we combine imperfect parallel synthetic data of EL and normal speech with the original dataset into VC training. Finally, the original parallel dataset is used exclusively for the final fine-tuning stage. We study the effectiveness of proposed techniques and demonstrate that the methods lead to a progressive improvement for the performance of EL2SP based on seq2seq VC.
+	</div>
+	
+	<br>
+    <div style="width: 80%">
+      <h2>Dataset</h2>
+      We recorded <strong>three speech sets</strong>: <strong>RealEL</strong>, which is an EL corpus recorded from a laryngectomee; <strong>SimuEL</strong> and <strong>NormSP</strong>, which are a simulated EL corpus and a normal corpus recorded from a healthy speaker.
+    </div>
+ 	
+	<br>
+    <div style="width: 80%">
+      <h2>Two experimental cases were conducted to evaluate proposed methods for EL2SP</h2>
+      <ul>
+        <li><strong>Case 1</strong>: SimuEL to NormSP.</li>
+        <li><strong>Case 2</strong>: RealEL to NormSP.</li>
+      </ul>
+    </div>
+	<br>
+    <div style="width: 80%">
+      <h2>Systems</h2>
+      <ul>
+        <li><strong>EL speech, Normal speech</strong>: Original source EL and target normal speech as the reference.</li>
+        <li><strong>Baseline</strong>: The Transformer-based model first conducted VTN pretraining then directly fine-tuned with the original EL2SP datasets.</li>
+		<li><strong>Proposed 1</strong>: The proposed method first used VTN pretraining then conducted two-stage fine-tuning with the synthetic data and original EL2SP dataset.</li>
+			<ul>
+				<li><strong>Stage I of proposed 1</strong>: Conversion from first-stage fine-tuning of proposed 1.</li>
+				<li><strong>Stage II of proposed 1</strong>: Conversion from final-stage fine-tuning of proposed 1.</li>
+			</ul>
+		<li><strong>Proposed 2</strong>: The proposed method exploited all pretraining and fine-tuning settings including VTN pretraining, EL adaptaion training and two-stage fine-tuning.</li>
+			<ul>
+				<li><strong>Stage I of proposed 2</strong>: Conversion from first-stage fine-tuning of proposed 2.</li> 
+				<li><strong>Stage II of proposed 2</strong>: Conversion from final-stage fine-tuning of proposed 2.</li>
+			</ul>
+      </ul>
+    </div>
+	
+	<br>	  
+    <div style="width: 80%">
+		<h2>Speech Samples of Case 1</h2>
+		
+        <!-- sample 1 -->
+        <h3 class="transcript">Transcription: ンジャメナ、んちゃって、言いにくいな。 (njya me na、ncyatte、ii ni ku i na。)</h3>
+		<br>
+		<table>
+			<tr>
+			  <th>EL speech</th><th>Normal speech</th>
+			</tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Reference:</th>
+		    </tr>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <td>
+		        <audio controls><source src="samples/case1/el/tfa104.wav"></audio>
+		      </td>
+		      <td>
+		        <audio controls><source src="samples/case1/normal/tfa104.wav"></audio>
+		      </td>
+		    </tr>
+		</table>
+		
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <th>Baseline</th><th>Stage I of proposed 1</th><th>Stage II of proposed 1</th><th>Stage I of proposed 2</th><th>Stage II of proposed 2</th>
+            </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Conversion:</th>
+		    </tr>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <td>
+                <audio controls><source src="samples/case1/baseline/tfa104.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p1-s1/tfa104.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p1-s2/tfa104.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p2-s1/tfa104.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p2-s2/tfa104.wav"></audio>
+              </td>
+            </tr>
+        </table>
+		
+        <!-- sample 2 -->
+        <h3 class="transcript">Transcription: 確かに都心に住むのも便利だけど、生活を考えると郊外も悪くないわよ。 (tashika ni toshin ni sumu no mo benri dakedo、seikatsu o kangaeru to kougai mo warukunai wa yo。)</h3>
+		<br>
+		<table>
+			<tr>
+			  <th>EL speech</th><th>Normal speech</th>
+			</tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Reference:</th>
+		    </tr>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <td>
+		        <audio controls><source src="samples/case1/el/tfa085.wav"></audio>
+		      </td>
+		      <td>
+		        <audio controls><source src="samples/case1/normal/tfa085.wav"></audio>
+		      </td>
+		    </tr>
+		</table>
+		
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <th>Baseline</th><th>Stage I of proposed 1</th><th>Stage II of proposed 1</th><th>Stage I of proposed 2</th><th>Stage II of proposed 2</th>
+            </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Conversion:</th>
+		    </tr>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <td>
+                <audio controls><source src="samples/case1/baseline/tfa085.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p1-s1/tfa085.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p1-s2/tfa085.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p2-s1/tfa085.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p2-s2/tfa085.wav"></audio>
+              </td>
+            </tr>
+        </table>
+		
+        <!-- sample 3 -->
+        <h3 class="transcript">Transcription: ターニャに平常心の暗示をかけたら、余裕で受かったわ。 (taanya ni heijoushin no anji o ka ke ta ra、yoyuu de ukatta wa。)</h3>
+		<br>
+		<table>
+			<tr>
+			  <th>EL speech</th><th>Normal speech</th>
+			</tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Reference:</th>
+		    </tr>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <td>
+		        <audio controls><source src="samples/case1/el/tfa108.wav"></audio>
+		      </td>
+		      <td>
+		        <audio controls><source src="samples/case1/normal/tfa108.wav"></audio>
+		      </td>
+		    </tr>
+		</table>
+		
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <th>Baseline</th><th>Stage I of proposed 1</th><th>Stage II of proposed 1</th><th>Stage I of proposed 2</th><th>Stage II of proposed 2</th>
+            </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Conversion:</th>
+		    </tr>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <td>
+                <audio controls><source src="samples/case1/baseline/tfa108.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p1-s1/tfa108.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p1-s2/tfa108.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p2-s1/tfa108.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case1/p2-s2/tfa108.wav"></audio>
+              </td>
+            </tr>
+        </table>
+	  
+	  <br>
+      <div style="width: 80%">
+		<h2>Speech Samples of Case 2</h2>
+		
+        <!-- sample 1 -->
+        <h3 class="transcript">Transcription: 税関を出たところで、受け取れるはずです。 (zeikan o deta to ko ro de、 uke toreru hazu de su.)</h3>
+		<br>
+		<table>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <th>EL speech</th><th>Normal speech</th>
+		    </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Reference:</th>
+		    </tr>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <td>
+		        <audio controls><source src="samples/case2/el/232.wav"></audio>
+		      </td>
+		      <td>
+		        <audio controls><source src="samples/case2/normal/232.wav"></audio>
+		      </td>
+		    </tr>
+		</table>
+		
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              	<th>Baseline</th><th>Stage I of proposed 1</th><th>Stage II of proposed 1</th><th>Stage I of proposed 2</th><th>Stage II of proposed 2</th>
+			    <tr>
+			      <th style="text-align: left;" colspan="2">Conversion:</th>
+			    </tr>
+            </tr>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <td>
+                <audio controls><source src="samples/case2/baseline/baseline1.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s1-p1/S1-P1-1.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s2-p1/S2-P1-1.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s1-p2/S1-P2-1.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s2-p2/S2-P2-1.wav"></audio>
+              </td>
+            </tr>
+        </table>
+		
+        <!-- sample 2 -->
+        <h3 class="transcript">Transcription: 保証が沢山あるものにします。 (ho syou ga takusan a ru mo no ni si ma su。)</h3>
+		<br>
+		<table>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <th>EL speech</th><th>Normal speech</th>
+		    </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Reference:</th>
+		    </tr>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <td>
+		        <audio controls><source src="samples/case2/el/214.wav"></audio>
+		      </td>
+		      <td>
+		        <audio controls><source src="samples/case2/normal/214.wav"></audio>
+		      </td>
+		    </tr>
+		</table>
+		
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <th>Baseline</th><th>Stage I of proposed 1</th><th>Stage II of proposed 1</th><th>Stage I of proposed 2</th><th>Stage II of proposed 2</th>
+            </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Conversion:</th>
+		    </tr>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <td>
+                <audio controls><source src="samples/case2/baseline/baseline2.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s1-p1/S1-P1-2.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s2-p1/S2-P1-2.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s1-p2/S1-P2-2.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s2-p2/S2-P2-2.wav"></audio>
+              </td>
+            </tr>
+        </table>
+		
+        <!-- sample 3 -->
+        <h3 class="transcript">Transcription: ドアは自分で開けてください。 (do a wa ji bun de a ke te ku da sai。)</h3>
+		<br>
+		<table>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <th>EL speech</th><th>Normal speech</th>
+		    </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Reference:</th>
+		    </tr>
+		    <tr style="border-top: solid; border-bottom: solid;">
+		      <td>
+		        <audio controls><source src="samples/case2/el/239.wav"></audio>
+		      </td>
+		      <td>
+		        <audio controls><source src="samples/case2/normal/239.wav"></audio>
+		      </td>
+		    </tr>
+		</table>
+		
+        <br>
+        <table>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <th>Baseline</th><th>Stage I of proposed 1</th><th>Stage II of proposed 1</th><th>Stage I of proposed 2</th><th>Stage II of proposed 2</th>
+            </tr>
+		    <tr>
+		      <th style="text-align: left;" colspan="2">Conversion:</th>
+		    </tr>
+            <tr style="border-top: solid; border-bottom: solid;">
+              <td>
+                <audio controls><source src="samples/case2/baseline/baseline3.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s1-p1/S1-P1-3.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s2-p1/S2-P1-3.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s1-p2/S1-P2-3.wav"></audio>
+              </td>
+              <td>
+                <audio controls><source src="samples/case2/s2-p2/S2-P2-3.wav"></audio>
+              </td>
+            </tr>
+        </table>
+		
+      </div>
+
+  <br>
+  </body>
+</html>
